@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Fixed
+
+- Marketplace listing icon not rendering (showed a broken "plugin icon"
+  placeholder) — replaced with the same icon already proven to render
+  correctly on other Gap Hunter Labs listings.
+
 ## [0.1.0]
 
 ### Added
@@ -22,5 +30,6 @@
   already prevents the exact bug class this rule targets for
   non-platform types.
 
-[Unreleased]: https://github.com/GapHunterLabs/review-companion/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/review-companion/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/GapHunterLabs/review-companion/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/GapHunterLabs/review-companion/commits/0.1.0
