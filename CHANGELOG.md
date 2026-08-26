@@ -4,6 +4,17 @@
 
 ## [Unreleased]
 
+## [0.1.2]
+
+### Added
+
+- Review/star CTA: after 10 distinct real findings across any of the 4
+  rules (long function, nested conditional, null dereference, TODO/FIXME
+  density), a one-time notification asks whether to rate the plugin on
+  Marketplace, with a permanent "Don't ask again" option. Standard
+  mechanism used catalog-wide since 2026-08-24 (`CONSTITUTION.md` §7.2),
+  rolled out to this plugin now.
+
 ## [0.1.1]
 
 ### Fixed
@@ -30,6 +41,7 @@
   already prevents the exact bug class this rule targets for
   non-platform types.
 
-[Unreleased]: https://github.com/GapHunterLabs/review-companion/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/review-companion/compare/0.1.2...HEAD
+[0.1.2]: https://github.com/GapHunterLabs/review-companion/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/GapHunterLabs/review-companion/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/GapHunterLabs/review-companion/commits/0.1.0
