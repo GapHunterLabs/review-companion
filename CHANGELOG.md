@@ -12,7 +12,7 @@
   rules (long function, nested conditional, null dereference, TODO/FIXME
   density), a one-time notification asks whether to rate the plugin on
   Marketplace, with a permanent "Don't ask again" option. Standard
-  mechanism used catalog-wide since 2026-08-24 (`CONSTITUTION.md` §7.2),
+  mechanism used catalog-wide since 2026-08-24,
   rolled out to this plugin now.
 
 ## [0.1.1]
