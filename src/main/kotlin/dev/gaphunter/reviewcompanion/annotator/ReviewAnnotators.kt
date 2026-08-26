@@ -15,6 +15,7 @@ import dev.gaphunter.reviewcompanion.detect.ReviewRule
 import dev.gaphunter.reviewcompanion.detect.TodoFixmeDensityDetector
 import dev.gaphunter.reviewcompanion.psi.JavaFunctionWalker
 import dev.gaphunter.reviewcompanion.psi.KotlinFunctionWalker
+import dev.gaphunter.reviewcompanion.review.ReviewPrompt
 import dev.gaphunter.reviewcompanion.settings.ReviewCompanionSettings
 import org.jetbrains.kotlin.psi.KtNamedFunction
 
@@ -83,5 +84,11 @@ private fun report(findings: List<Finding>, reportTarget: PsiElement, holder: An
     for (finding in findings) {
         val range: TextRange = reportTarget.textRange
         holder.newAnnotation(HighlightSeverity.WEAK_WARNING, finding.message).range(range).create()
+        val path = reportTarget.containingFile?.virtualFile?.path ?: reportTarget.containingFile?.name.orEmpty()
+        val lineNumber = reportTarget.containingFile?.viewProvider?.document?.getLineNumber(range.startOffset)?.plus(1) ?: 0
+        // Same message can legitimately repeat on different functions with the same
+        // name in different files -- key on path+line+message, not just the function
+        // name, so distinct rule types firing on the same line still dedupe correctly.
+        ReviewPrompt.recordHit(reportTarget.project, "$path:$lineNumber:${finding.message}")
     }
 }

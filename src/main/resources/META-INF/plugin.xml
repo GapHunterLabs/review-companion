@@ -26,6 +26,7 @@
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="Review Companion" displayType="BALLOON"/>
         <annotator language="JAVA" implementationClass="dev.gaphunter.reviewcompanion.annotator.JavaReviewAnnotator"/>
         <annotator language="kotlin" implementationClass="dev.gaphunter.reviewcompanion.annotator.KotlinReviewAnnotator"/>
         <applicationService serviceImplementation="dev.gaphunter.reviewcompanion.settings.ReviewCompanionSettings"/>
