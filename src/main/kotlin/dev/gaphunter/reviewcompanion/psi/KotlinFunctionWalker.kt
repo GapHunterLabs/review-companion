@@ -49,6 +49,9 @@ object KotlinFunctionWalker {
     private fun countTodoFixme(element: PsiElement): Int =
         PsiTreeUtil.findChildrenOfType(element, PsiComment::class.java).count { comment ->
             val text = comment.text.uppercase()
-            text.contains("TODO") || text.contains("FIXME")
+            // HACK is the same class of "revisit this later" marker as
+            // TODO/FIXME (Google's own style guides and most real
+            // linters group all three together), same as JavaFunctionWalker.
+            text.contains("TODO") || text.contains("FIXME") || text.contains("HACK")
         }
 }

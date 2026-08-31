@@ -60,7 +60,11 @@ object JavaFunctionWalker {
             override fun visitComment(comment: PsiComment) {
                 super.visitComment(comment)
                 val text = comment.text.uppercase()
-                if (text.contains("TODO") || text.contains("FIXME")) count++
+                // HACK is the same class of "revisit this later" marker
+                // as TODO/FIXME (Google's own style guides and most
+                // real linters group all three together), so it's
+                // counted toward the same density signal.
+                if (text.contains("TODO") || text.contains("FIXME") || text.contains("HACK")) count++
             }
         })
         return count
