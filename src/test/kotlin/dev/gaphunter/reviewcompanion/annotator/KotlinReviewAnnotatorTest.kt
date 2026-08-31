@@ -59,6 +59,20 @@ class KotlinReviewAnnotatorTest : BasePlatformTestCase() {
         assertTrue(warnings.any { it.contains("TODO/FIXME") })
     }
 
+    fun testHackCommentsAloneCountTowardTheSameDensityThreshold() {
+        val warnings = warningsFor(
+            """
+            fun target() {
+                // HACK: one
+                // HACK: two
+                // HACK: three
+                val x = 1
+            }
+            """.trimIndent(),
+        )
+        assertTrue(warnings.any { it.contains("TODO/FIXME") })
+    }
+
     fun testCleanFunctionProducesNoFindings() {
         val warnings = warningsFor(
             """

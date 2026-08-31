@@ -111,6 +111,22 @@ class JavaReviewAnnotatorTest : BasePlatformTestCase() {
         assertTrue(warnings.any { it.contains("TODO/FIXME") })
     }
 
+    fun testHackCommentsAloneCountTowardTheSameDensityThreshold() {
+        val warnings = warningsFor(
+            """
+            class Acme {
+                void target() {
+                    // HACK: one
+                    // HACK: two
+                    // HACK: three
+                    int x = 1;
+                }
+            }
+            """.trimIndent(),
+        )
+        assertTrue(warnings.any { it.contains("TODO/FIXME") })
+    }
+
     fun testCleanMethodProducesNoFindingsAtAll() {
         val warnings = warningsFor(
             """
