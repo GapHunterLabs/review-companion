@@ -7,7 +7,8 @@
         <p>Local, rule-based code review hints for Java and Kotlin — no
         account, no rate limit, no cloud call. Flags overly long functions,
         deeply nested conditionals, method-parameter dereferences with no
-        preceding null check (Java), and TODO/FIXME comment density —
+        preceding null check (Java; parameters declared <code>@NotNull</code>/<code>@NonNull</code>
+        or of a primitive type are skipped), and TODO/FIXME comment density —
         every check configurable, every threshold adjustable, nothing ever
         requires signing in.</p>
         <p>100% local: every rule runs against the code already open in the

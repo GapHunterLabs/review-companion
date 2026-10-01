@@ -32,7 +32,14 @@ Reviews (~864K downloads, freemium), not assumptions:
   guard anywhere earlier in the same function — no dataflow analysis, no
   attempt at exhaustive nullability inference. A review tool that cries
   wolf on things that aren't real bugs is itself a trust problem, so
-  this favors missing real issues over false positives. Kotlin isn't
+  this favors missing real issues over false positives. A guard is
+  `x != null` / `x == null` in either order (`null != x` too),
+  `instanceof`, or `Objects.requireNonNull(x)`. A parameter declared
+  non-null — `@NotNull`, `@NonNull` or `@Nonnull` from any package
+  (JetBrains, Jakarta, javax, Lombok, Spring...) — or of a primitive
+  type is never reported. (Before 0.2.2 the reversed `null != x` check
+  and the annotations were ignored, so those dereferences were
+  reported.) Kotlin isn't
   covered by this specific rule since its own null-safety type system
   already prevents the bug class it targets for non-platform types.
 - **Every rule independently toggleable and threshold-configurable**,
