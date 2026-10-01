@@ -4,6 +4,15 @@
 
 ## [Unreleased]
 
+## [0.2.2]
+
+### Fixed
+
+- A parameter declared non-null (`@NotNull`, `@NonNull` or `@Nonnull`,
+  any package) was reported as dereferenced without a null check.
+- A reversed null check (`if (null != customer)`) was not recognized as
+  a guard, so the dereference it protects was reported.
+
 ## [0.2.1]
 
 ### Fixed
@@ -56,7 +65,8 @@
   already prevents the exact bug class this rule targets for
   non-platform types.
 
-[Unreleased]: https://github.com/GapHunterLabs/review-companion/compare/0.2.1...HEAD
+[Unreleased]: https://github.com/GapHunterLabs/review-companion/compare/0.2.2...HEAD
+[0.2.2]: https://github.com/GapHunterLabs/review-companion/compare/0.2.1...0.2.2
 [0.2.1]: https://github.com/GapHunterLabs/review-companion/compare/0.2.0...0.2.1
 [0.2.0]: https://github.com/GapHunterLabs/review-companion/compare/0.1.2...0.2.0
 [0.1.2]: https://github.com/GapHunterLabs/review-companion/compare/0.1.1...0.1.2

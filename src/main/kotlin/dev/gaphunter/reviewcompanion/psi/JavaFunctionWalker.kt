@@ -13,6 +13,7 @@ import com.intellij.psi.PsiInstanceOfExpression
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.PsiParameter
+import com.intellij.psi.PsiPrimitiveType
 import com.intellij.psi.PsiReferenceExpression
 import com.intellij.psi.PsiSwitchStatement
 import com.intellij.psi.PsiWhileStatement
@@ -81,7 +82,11 @@ object JavaFunctionWalker {
      * positives over precision.
      */
     private fun findUnguardedDereferences(body: PsiElement, parameters: List<PsiParameter>): List<UnguardedDereference> {
-        val paramNames = parameters.map { it.name }.toSet()
+        // A parameter declared non-null (@NotNull/@NonNull/@Nonnull from any
+        // package: JetBrains, Jakarta, javax, Lombok, Spring...) or of a
+        // primitive type can't be null: before 0.2.2 its first
+        // dereference was reported anyway (found 2026-10-01).
+        val paramNames = parameters.filterNot { isDeclaredNonNull(it) }.map { it.name }.toSet()
         if (paramNames.isEmpty()) return emptyList()
         val guardedSoFar = mutableSetOf<String>()
         val findings = mutableListOf<UnguardedDereference>()
@@ -133,6 +138,22 @@ object JavaFunctionWalker {
         val isNullLiteral = { e: PsiExpression? -> e?.text == "null" }
         if (isNullLiteral(expr.rOperand) && left != null) {
             left.referenceName?.let { if (it in paramNames) guardedSoFar.add(it) }
+        }
+        // Reversed form, "null != customer": not recognized before 0.2.2,
+        // so a guarded dereference was reported (found 2026-10-01).
+        val right = expr.rOperand as? PsiReferenceExpression
+        if (isNullLiteral(expr.lOperand) && right != null) {
+            right.referenceName?.let { if (it in paramNames) guardedSoFar.add(it) }
+        }
+    }
+
+    private val NON_NULL_ANNOTATIONS = setOf("NotNull", "NonNull", "Nonnull")
+
+    private fun isDeclaredNonNull(parameter: PsiParameter): Boolean {
+        if (parameter.type is PsiPrimitiveType) return true
+        return parameter.annotations.any { annotation ->
+            val name = annotation.qualifiedName ?: annotation.nameReferenceElement?.referenceName
+            name?.substringAfterLast('.') in NON_NULL_ANNOTATIONS
         }
     }
 }

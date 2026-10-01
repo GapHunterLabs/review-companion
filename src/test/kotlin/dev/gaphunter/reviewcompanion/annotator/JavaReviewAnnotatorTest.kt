@@ -95,6 +95,54 @@ class JavaReviewAnnotatorTest : BasePlatformTestCase() {
         assertTrue(warnings.none { it.contains("null check") })
     }
 
+    // Regression (2026-10-01): "null != customer" was not recognized as a
+    // null check, so a guarded dereference was reported.
+    fun testReversedNullCheckGuardsTheDereference() {
+        val warnings = warningsFor(
+            """
+            class Acme {
+                String target(String customer) {
+                    if (null != customer) {
+                        return customer.trim();
+                    }
+                    return "";
+                }
+            }
+            """.trimIndent(),
+        )
+        assertTrue("Expected no null-check finding, got: $warnings", warnings.none { it.contains("null check") })
+    }
+
+    // Regression (2026-10-01): a parameter declared non-null by annotation
+    // was reported as an unguarded dereference.
+    fun testParameterAnnotatedNotNullIsNotReported() {
+        val warnings = warningsFor(
+            """
+            import java.lang.annotation.*;
+            class Acme {
+                @Retention(RetentionPolicy.CLASS) @interface NotNull {}
+                @Retention(RetentionPolicy.CLASS) @interface NonNull {}
+                String a(@NotNull String customer) { return customer.trim(); }
+                String b(@NonNull String customer) { return customer.trim(); }
+            }
+            """.trimIndent(),
+        )
+        assertTrue("Expected no null-check finding, got: $warnings", warnings.none { it.contains("null check") })
+    }
+
+    fun testParameterAnnotatedNullableIsStillReported() {
+        val warnings = warningsFor(
+            """
+            import java.lang.annotation.*;
+            class Acme {
+                @Retention(RetentionPolicy.CLASS) @interface Nullable {}
+                String a(@Nullable String customer) { return customer.trim(); }
+            }
+            """.trimIndent(),
+        )
+        assertTrue(warnings.any { it.contains("customer") && it.contains("null check") })
+    }
+
     fun testTodoDensityAboveThresholdProducesAFinding() {
         val warnings = warningsFor(
             """
