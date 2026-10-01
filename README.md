@@ -3,6 +3,12 @@
 IntelliJ-family plugin. Local, rule-based code review hints for Java and
 Kotlin — no account, no rate limit, no cloud call.
 
+![Review Companion: local code review hints for Java and Kotlin, no account needed](docs/media/hero.gif)
+
+Each feature on its own:
+[Null checks](docs/media/01-null-check.gif) ·
+[Deep nesting](docs/media/02-nesting.gif)
+
 ## Why it exists
 
 Born from real evidence in JetBrains Marketplace reviews of Bito AI Code
