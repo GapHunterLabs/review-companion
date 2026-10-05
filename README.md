@@ -59,10 +59,12 @@ relevant function's name, as part of the editor's normal highlighting
 pass. Adjust thresholds or disable individual rules under Settings >
 Tools > Review Companion.
 
-## Enterprise / Team Licensing
+## Support
 
-Need enterprise features, custom review rules, or team licensing?
-Contact us at **gaphunterlabs@gmail.com**.
+- **Bugs and feature requests:** [GitHub Issues](https://github.com/GapHunterLabs/review-companion/issues)
+- **Questions, or custom rules for a team's codebase:** **gaphunterlabs@gmail.com**
+- **Security vulnerabilities:** report privately as described in [SECURITY.md](SECURITY.md), not in a public issue.
+- **Privacy and network behavior:** [PRIVACY.md](PRIVACY.md)
 
 ## Development
 
